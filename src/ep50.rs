@@ -1,4 +1,4 @@
-use bevy::{prelude::*, ui::update, window::PrimaryWindow};
+use bevy::{prelude::*, window::PrimaryWindow};
 use rand::prelude::*;
 
 pub const PLAYER_SPEED: f32 = 500.0;

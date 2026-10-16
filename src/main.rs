@@ -4,6 +4,7 @@ mod ep30;
 mod ep40;
 mod ep50;
 mod ep60;
+mod ep70;
 
 fn main() {
     let arg = std::env::args().nth(1).unwrap_or_default();
@@ -15,6 +16,7 @@ fn main() {
         "40" | "ep40" => ep40::ep40(),
         "50" | "ep50" => ep50::ep50(),
         "60" | "ep60" => ep60::ep60(),
+        "70" | "ep70" => ep70::ep70(),
         _ => {
             eprintln!("Usage: learn-bevy <episode>");
             eprintln!("Available episodes: 10, 20, 30, 40, 50, 60");
