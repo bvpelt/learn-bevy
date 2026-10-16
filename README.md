@@ -7,5 +7,6 @@ It is devided in several steps
 - Bundle and resources [EP2](docs/EP2.md)
 - Moving player inside window, add enemies [EP3](docs/EP3.md)
 - Enemy movement, collision detection, sound [EP4](docs/EP4.md)
-- Setup game [EP5](docs/EP5.md)
+- Add user resources and score [EP5](docs/EP5.md)
+- Add user resources and score [EP6](docs/EP6.md)
 
