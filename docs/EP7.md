@@ -4,5 +4,20 @@
 Based on https://www.youtube.com/watch?v=gy2G63SA-W8&list=PLVnntJRoP85JHGX7rGDu6LaF3fmDDbqyd&index=7
 
 Learning targets
-- refactor the project into rust modules
+- refactor the project into rust modules, simple refactor
 - use rust modules and bevy plugins
+
+## Simple refactor
+
+Split the current implementation in modules
+
+```text
+src\
+    main.rs
+    components.rs
+    events.rs
+    resources.rs
+    systems.rs
+```
+
+Modules is a rust concept, used to split functionallity into logical units.

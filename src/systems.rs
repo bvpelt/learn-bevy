@@ -1,5 +1,10 @@
+use bevy::app::AppExit;
 use bevy::{prelude::*, window::PrimaryWindow};
 use rand::prelude::*;
+
+use crate::components::*;
+use crate::events::*;
+use crate::resources::*;
 
 pub const PLAYER_SPEED: f32 = 500.0;
 pub const PLAYER_SIZE: f32 = 64.0; // This is the player sprite size.
@@ -7,29 +12,10 @@ pub const NUMBER_OF_ENEMIES: usize = 4;
 pub const ENEMY_SPEED: f32 = 200.0; // This is the speed at which enemies move.
 pub const ENEMY_SIZE: f32 = 64.0; // This is the enemy sprite size.
 pub const PLAY_SOUNDS: bool = true;
+pub const NUMBER_OF_STARS: usize = 10;
+pub const STAR_SIZE: f32 = 30.0; // This is the star sprite size.
 
-pub fn ep40() {
-    App::new()
-        .add_plugins(DefaultPlugins)
-        .add_systems(Startup, spawn_camera)
-        .add_systems(Startup, spawn_player)
-        .add_systems(Startup, spawn_enemies)
-        .add_systems(Update, player_movement)
-        .add_systems(Update, confine_player_movement)
-        .add_systems(Update, enemy_movement)
-        .add_systems(Update, update_enemy_detection)
-        .add_systems(Update, confine_enemy_movement)
-        .add_systems(Update, enemy_hit_player)
-        .run();
-}
-
-#[derive(Component)]
-pub struct Player {}
-
-#[derive(Component)]
-pub struct Enemy {
-    pub direction: Vec2, // This is the direction in which the enemy is moving.
-}
+// spawning resources
 
 pub fn spawn_player(
     mut commands: Commands,
@@ -81,6 +67,31 @@ pub fn spawn_enemies(
         ));
     }
 }
+
+pub fn spawn_stars(
+    mut commands: Commands,
+    window_query: Query<&Window, With<PrimaryWindow>>,
+    asset_server: Res<AssetServer>,
+) {
+    let window = window_query.single().unwrap();
+    let mut rng = rand::rng();
+    let star_half_size = STAR_SIZE / 2.0;
+    for _ in 0..NUMBER_OF_STARS {
+        let x = rng.random_range(star_half_size..window.width() - star_half_size);
+        let y = rng.random_range(star_half_size..window.height() - star_half_size);
+
+        commands.spawn((
+            Sprite {
+                image: asset_server.load("sprites/star.png"),
+                ..default()
+            },
+            Transform::from_xyz(x, y, 0.0),
+            Star {},
+        ));
+    }
+}
+
+// system functions
 
 pub fn player_movement(
     keyboard_input: Res<ButtonInput<KeyCode>>,
@@ -247,9 +258,11 @@ pub fn confine_enemy_movement(
 
 pub fn enemy_hit_player(
     mut commands: Commands,
+    mut game_over_event_writer: MessageWriter<GameOver>,
     mut player_query: Query<(Entity, &Transform), With<Player>>,
     enemy_query: Query<&Transform, With<Enemy>>,
     asset_server: Res<AssetServer>,
+    score: Res<Score>,
 ) {
     if let Ok((player_entity, player_transform)) = player_query.single_mut() {
         for enemy_transform in enemy_query.iter() {
@@ -268,7 +281,139 @@ pub fn enemy_hit_player(
                     commands.spawn(AudioPlayer::new(sound_effect));
                 }
                 commands.entity(player_entity).despawn();
+                game_over_event_writer.write(GameOver { score: score.value });
             }
         }
+    }
+}
+
+pub fn player_hit_star(
+    mut commands: Commands,
+    mut player_query: Query<&Transform, With<Player>>,
+    star_query: Query<(Entity, &Transform), With<Star>>,
+    asset_server: Res<AssetServer>,
+    mut score: ResMut<Score>,
+) {
+    if let Ok(player_transform) = player_query.single_mut() {
+        for (star_entity, star_transform) in star_query.iter() {
+            let distance = player_transform
+                .translation
+                .distance(star_transform.translation);
+            let player_radius = PLAYER_SIZE / 2.0;
+            let star_radius = STAR_SIZE / 2.0;
+
+            // collision detection between player and star
+            if distance < player_radius + star_radius {
+                println!("Player hit by star!");
+                score.value += 1;
+                if PLAY_SOUNDS {
+                    let sound_effect = asset_server.load("audio/laserLarge_000.ogg");
+                    commands.spawn(AudioPlayer::new(sound_effect));
+                }
+                commands.entity(star_entity).despawn();
+            }
+        }
+    }
+}
+
+pub fn update_score(score: Res<Score>) {
+    if score.is_changed() {
+        println!("Score updated: {}", score.value.to_string());
+    }
+}
+
+pub fn tick_star_spawn_timer(time: Res<Time>, mut star_spawn_timer: ResMut<StarSpawnTimer>) {
+    star_spawn_timer.timer.tick(time.delta());
+}
+
+pub fn spawn_stars_over_time(
+    mut commands: Commands,
+    window_query: Query<&Window, With<PrimaryWindow>>,
+    asset_server: Res<AssetServer>,
+    star_spawn_timer: ResMut<StarSpawnTimer>,
+) {
+    if star_spawn_timer.timer.is_finished() {
+        // timer has finished, spawn a star
+        let window = window_query.single().unwrap();
+        let mut rng = rand::rng();
+        let star_half_size = STAR_SIZE / 2.0;
+
+        let x = rng.random_range(star_half_size..window.width() - star_half_size);
+        let y = rng.random_range(star_half_size..window.height() - star_half_size);
+
+        commands.spawn((
+            Sprite {
+                image: asset_server.load("sprites/star.png"),
+                ..default()
+            },
+            Transform::from_xyz(x, y, 0.0),
+            Star {},
+        ));
+    }
+}
+
+pub fn tick_enemy_spawn_timer(time: Res<Time>, mut enemy_spawn_timer: ResMut<EnemySpawnTimer>) {
+    enemy_spawn_timer.timer.tick(time.delta());
+}
+
+pub fn spawn_enemies_over_time(
+    mut commands: Commands,
+    window_query: Query<&Window, With<PrimaryWindow>>,
+    asset_server: Res<AssetServer>,
+    enemy_spawn_timer: ResMut<EnemySpawnTimer>,
+) {
+    if enemy_spawn_timer.timer.is_finished() {
+        // timer has finished, spawn an enemy
+        let window = window_query.single().unwrap();
+        let mut rng = rand::rng();
+        let enemy_half_size = ENEMY_SIZE / 2.0;
+
+        let x = rng.random_range(enemy_half_size..window.width() - enemy_half_size);
+        let y = rng.random_range(enemy_half_size..window.height() - enemy_half_size);
+
+        commands.spawn((
+            Sprite {
+                image: asset_server.load("sprites/ball_red_large.png"),
+                ..default()
+            },
+            Transform::from_xyz(x, y, 0.0),
+            Enemy {
+                direction: Vec2::new(rng.random(), rng.random()).normalize(),
+            },
+        ));
+    }
+}
+
+pub fn exit_game(
+    keyboard_input: Res<ButtonInput<KeyCode>>,
+    mut app_exit_event_writer: MessageWriter<AppExit>,
+) {
+    if keyboard_input.just_pressed(KeyCode::Escape) {
+        app_exit_event_writer.write(AppExit::Success);
+    }
+}
+
+pub fn handle_game_over(
+    mut game_over_event_reader: MessageReader<GameOver>,
+    mut app_exit_event_writer: MessageWriter<AppExit>,
+) {
+    for event in game_over_event_reader.read() {
+        println!("Game Over! Final Score: {}", event.score.to_string());
+        app_exit_event_writer.write(AppExit::Success);
+    }
+}
+
+pub fn update_high_scores(
+    mut game_over_event_reader: MessageReader<GameOver>,
+    mut high_scores: ResMut<HighScores>,
+) {
+    for event in game_over_event_reader.read() {
+        high_scores.scores.push(("Player".to_string(), event.score));
+    }
+}
+
+pub fn high_scores_updated(high_scores: Res<HighScores>) {
+    if high_scores.is_changed() {
+        println!("High Scores: {:?}", high_scores)
     }
 }
