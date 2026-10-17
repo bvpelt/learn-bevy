@@ -3,8 +3,6 @@ use bevy::{prelude::*, window::PrimaryWindow};
 
 use crate::events::*;
 
-pub const PLAY_SOUNDS: bool = true;
-
 // spawning resources
 
 pub fn spawn_camera(mut commands: Commands, window_query: Query<&Window, With<PrimaryWindow>>) {
