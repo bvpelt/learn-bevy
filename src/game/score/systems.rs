@@ -3,6 +3,14 @@ use bevy::prelude::*;
 use super::resources::*;
 use crate::events::GameOver;
 
+pub fn insert_score(mut commands: Commands) {
+    commands.insert_resource(Score::default()); // insert score with initial value 0
+}
+
+pub fn remove_score(mut commands: Commands) {
+    commands.remove_resource::<Score>();
+}
+
 pub fn update_score(score: Res<Score>) {
     if score.is_changed() {
         println!("Score updated: {}", score.value.to_string());

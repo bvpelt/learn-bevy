@@ -11,7 +11,8 @@ It is devided in several steps
 - Add events game over, add high score [EP6](docs/EP6.md)
 - Add user resources and score [EP7](docs/EP7.md)
 - System ordering and systemsets [EP8](docs/EP8.md)
-- State and persistence [EP9](docs/EP9.md)
+- Statemanagement and conditional run on state [EP9](docs/EP9.md)
+- UI [EP10](docs/EP10.md)
 
 
-https://youtu.be/bD2rgvtXcq0?si=nbvgTGo5YHCVqSTT&t=827
+UI https://www.youtube.com/watch?v=iW19V3a96tY

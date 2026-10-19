@@ -5,6 +5,9 @@ mod systems;
 
 use systems::*;
 
+use super::SimulationState;
+use crate::AppState;
+
 #[derive(SystemSet, Debug, Hash, PartialEq, Eq, Clone)]
 pub enum PlayerSystemSet {
     Movement,
@@ -21,15 +24,30 @@ impl Plugin for PlayerPlugin {
                 Update,
                 PlayerSystemSet::Movement.before(PlayerSystemSet::Confinement),
             )
-            // Startup system
-            .add_systems(Startup, spawn_player)
+            // On Enter State
+            .add_systems(OnEnter(AppState::Game), spawn_player)
             // Systems
-            .add_systems(Update, player_movement.in_set(PlayerSystemSet::Movement))
             .add_systems(
                 Update,
-                confine_player_movement.in_set(PlayerSystemSet::Confinement),
+                player_movement
+                    .in_set(PlayerSystemSet::Movement)
+                    .run_if(in_state(AppState::Game))
+                    .run_if(in_state(SimulationState::Running)),
             )
-            .add_systems(Update, enemy_hit_player)
-            .add_systems(Update, player_hit_star);
+            .add_systems(
+                Update,
+                confine_player_movement
+                    .in_set(PlayerSystemSet::Confinement)
+                    .run_if(in_state(AppState::Game))
+                    .run_if(in_state(SimulationState::Running)),
+            )
+            .add_systems(
+                Update,
+                (enemy_hit_player, player_hit_star)
+                    .run_if(in_state(AppState::Game))
+                    .run_if(in_state(SimulationState::Running)),
+            )
+            // On Exit State
+            .add_systems(OnExit(AppState::Game), despawn_player);
     }
 }

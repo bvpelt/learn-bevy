@@ -3,6 +3,7 @@ use bevy::{prelude::*, window::PrimaryWindow};
 
 use crate::AppState;
 use crate::events::*;
+use crate::game::SimulationState;
 
 // spawning resources
 
@@ -38,6 +39,7 @@ pub fn transition_to_main_menu_state(
     if keyboard_input.just_pressed(KeyCode::KeyM) {
         if app_state.get() != &AppState::MainMenu {
             commands.insert_resource(NextState::Pending(AppState::MainMenu));
+            commands.insert_resource(NextState::Pending(SimulationState::Paused));
             println!("Entered AppState::MainMenu");
         }
     }
@@ -53,11 +55,11 @@ pub fn exit_game(
 }
 
 pub fn handle_game_over(
+    mut commands: Commands,
     mut game_over_event_reader: MessageReader<GameOver>,
-    mut app_exit_event_writer: MessageWriter<AppExit>,
 ) {
     for event in game_over_event_reader.read() {
         println!("Game Over! Final Score: {}", event.score.to_string());
-        app_exit_event_writer.write(AppExit::Success);
+        commands.insert_resource(NextState::Pending(AppState::GameOver));
     }
 }
