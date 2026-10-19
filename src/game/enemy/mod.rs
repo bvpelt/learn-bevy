@@ -21,20 +21,9 @@ impl Plugin for EnemyPlugin {
             // Resources
             .init_resource::<EnemySpawnTimer>()
             // Startup systems
-            .add_systems(Startup, spawn_enemies)
+            //.add_systems(Startup, spawn_enemies)
+            .add_systems(OnEnter(AppState::Game), spawn_enemies)
             // Systems
-            /*
-            .add_systems(
-                Update,
-                enemy_movement
-                    .run_if(in_state(AppState::Game))
-                    .run_if(in_state(SimulationState::Running)),
-            )
-            .add_systems(Update, update_enemy_detection)
-            .add_systems(Update, confine_enemy_movement)
-            .add_systems(Update, tick_enemy_spawn_timer)
-            .add_systems(Update, spawn_enemies_over_time)
-             */
             .add_systems(
                 Update,
                 (
@@ -46,6 +35,8 @@ impl Plugin for EnemyPlugin {
                 )
                     .run_if(in_state(AppState::Game))
                     .run_if(in_state(SimulationState::Running)),
-            );
+            )
+            // Exit State Systems
+            .add_systems(OnExit(AppState::Game), despawn_enemies);
     }
 }
