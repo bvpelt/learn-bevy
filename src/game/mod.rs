@@ -26,17 +26,24 @@ impl Plugin for GamePlugin {
             .init_state::<SoundState>()
             // Messages
             .add_message::<GameOver>()
+            // On Enter System
+            .add_systems(OnEnter(AppState::Game), pause_simulation)
             // Plugins
             .add_plugins((EnemyPlugin, PlayerPlugin, ScorePlugin, StarPlugin))
             // Systems
-            .add_systems(Update, toggle_simulation.run_if(in_state(AppState::Game)));
+            .add_systems(
+                Update,
+                (toggle_simulation, toggle_sound).run_if(in_state(AppState::Game)),
+            )
+            // On Exit System
+            .add_systems(OnExit(AppState::Game), resume_simulation);
     }
 }
 
 #[derive(States, Debug, Clone, Copy, Eq, PartialEq, Hash, Default)]
 pub enum SimulationState {
-    Running,
     #[default]
+    Running,
     Paused,
 }
 

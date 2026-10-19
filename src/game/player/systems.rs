@@ -176,20 +176,3 @@ pub fn player_hit_star(
         }
     }
 }
-
-pub fn toggle_sound(
-    keyboard_input: Res<ButtonInput<KeyCode>>,
-    sound_state: Res<State<SoundState>>,
-    mut next_sound_state: ResMut<NextState<SoundState>>,
-) {
-    if keyboard_input.just_pressed(KeyCode::KeyS) {
-        if sound_state.get() == &SoundState::SoundOff {
-            next_sound_state.set(SoundState::SoundOn);
-            println!("Sound on");
-        }
-        if sound_state.get() == &SoundState::SoundOn {
-            next_sound_state.set(SoundState::SoundOff);
-            println!("Sound off");
-        }
-    }
-}
