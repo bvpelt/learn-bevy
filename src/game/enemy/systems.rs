@@ -2,7 +2,6 @@ use bevy::prelude::*;
 use bevy::window::PrimaryWindow;
 use rand::prelude::*;
 
-//use crate::enemy::components::*;
 use super::components::*;
 use super::resources::*;
 use super::{ENEMY_SIZE, ENEMY_SPEED, NUMBER_OF_ENEMIES, PLAY_SOUNDS};

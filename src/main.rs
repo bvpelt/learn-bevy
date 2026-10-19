@@ -14,13 +14,25 @@ fn main() {
     App::new()
         // Bevy Plugins
         .add_plugins(DefaultPlugins)
+        // State
+        .init_state::<AppState>()
         // My Plugins
         .add_plugins(MainMenuPlugin)
         .add_plugins(GamePlugin)
         // Startup system
         .add_systems(Startup, spawn_camera)
         // Systems
+        .add_systems(Update, transition_to_game_state)
+        .add_systems(Update, transition_to_main_menu_state)
         .add_systems(Update, exit_game)
         .add_systems(Update, handle_game_over)
         .run();
+}
+
+#[derive(States, Debug, Clone, Copy, Eq, PartialEq, Hash, Default)]
+pub enum AppState {
+    #[default]
+    MainMenu,
+    Game,
+    GameOver,
 }

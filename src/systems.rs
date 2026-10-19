@@ -1,6 +1,7 @@
 use bevy::app::AppExit;
 use bevy::{prelude::*, window::PrimaryWindow};
 
+use crate::AppState;
 use crate::events::*;
 
 // spawning resources
@@ -15,6 +16,32 @@ pub fn spawn_camera(mut commands: Commands, window_query: Query<&Window, With<Pr
 }
 
 // system functions
+
+pub fn transition_to_game_state(
+    mut commands: Commands<'_, '_>,
+    keyboard_input: Res<ButtonInput<KeyCode>>,
+    app_state: Res<State<AppState>>,
+) {
+    if keyboard_input.just_pressed(KeyCode::KeyG) {
+        if app_state.get() != &AppState::Game {
+            commands.insert_resource(NextState::Pending(AppState::Game));
+            println!("Entered AppState::Game");
+        }
+    }
+}
+
+pub fn transition_to_main_menu_state(
+    mut commands: Commands<'_, '_>,
+    keyboard_input: Res<ButtonInput<KeyCode>>,
+    app_state: Res<State<AppState>>,
+) {
+    if keyboard_input.just_pressed(KeyCode::KeyM) {
+        if app_state.get() != &AppState::MainMenu {
+            commands.insert_resource(NextState::Pending(AppState::MainMenu));
+            println!("Entered AppState::MainMenu");
+        }
+    }
+}
 
 pub fn exit_game(
     keyboard_input: Res<ButtonInput<KeyCode>>,

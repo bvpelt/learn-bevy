@@ -12,3 +12,6 @@ It is devided in several steps
 - Add user resources and score [EP7](docs/EP7.md)
 - System ordering and systemsets [EP8](docs/EP8.md)
 - State and persistence [EP9](docs/EP9.md)
+
+
+https://youtu.be/bD2rgvtXcq0?si=nbvgTGo5YHCVqSTT&t=827
