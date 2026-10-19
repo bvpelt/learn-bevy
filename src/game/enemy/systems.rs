@@ -4,7 +4,8 @@ use rand::prelude::*;
 
 use super::components::*;
 use super::resources::*;
-use super::{ENEMY_SIZE, ENEMY_SPEED, NUMBER_OF_ENEMIES, PLAY_SOUNDS};
+use super::{ENEMY_SIZE, ENEMY_SPEED, NUMBER_OF_ENEMIES};
+use crate::game::SoundState;
 
 pub fn spawn_enemies(
     mut commands: Commands,
@@ -49,6 +50,7 @@ pub fn update_enemy_detection(
     window_query: Query<&Window, With<PrimaryWindow>>,
     mut commands: Commands,
     asset_server: Res<AssetServer>,
+    sound_state: Res<State<SoundState>>,
 ) {
     let window = window_query.single().unwrap();
     let half_enemy_size = ENEMY_SIZE / 2.0;
@@ -74,7 +76,7 @@ pub fn update_enemy_detection(
         }
 
         // if direction changed play sound effect
-        if direction_changed && PLAY_SOUNDS {
+        if direction_changed && sound_state.get() == &SoundState::SoundOn {
             let sound_effect_1 = asset_server.load("audio/pluck_001.ogg");
             let sound_effect_2 = asset_server.load("audio/pluck_002.ogg");
             // random play sound effect 1 or 2

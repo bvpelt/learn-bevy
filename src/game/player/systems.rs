@@ -3,8 +3,9 @@ use bevy::window::PrimaryWindow;
 
 use super::components::Player;
 use crate::events::GameOver;
+use crate::game::enemy::ENEMY_SIZE;
 use crate::game::enemy::components::*;
-use crate::game::enemy::{ENEMY_SIZE, PLAY_SOUNDS};
+use crate::game::player::SoundState;
 use crate::game::score::resources::*;
 use crate::game::star::STAR_SIZE;
 use crate::game::star::components::*;
@@ -121,6 +122,7 @@ pub fn enemy_hit_player(
     enemy_query: Query<&Transform, With<Enemy>>,
     asset_server: Res<AssetServer>,
     score: Res<Score>,
+    sound_state: Res<State<SoundState>>,
 ) {
     if let Ok((player_entity, player_transform)) = player_query.single_mut() {
         for enemy_transform in enemy_query.iter() {
@@ -134,7 +136,7 @@ pub fn enemy_hit_player(
             if distance < player_radius + enemy_radius {
                 println!("Player hit by enemy!, Game Over!");
 
-                if PLAY_SOUNDS {
+                if sound_state.get() == &SoundState::SoundOn {
                     let sound_effect = asset_server.load("audio/explosionCrunch_000.ogg");
                     commands.spawn(AudioPlayer::new(sound_effect));
                 }
@@ -151,6 +153,7 @@ pub fn player_hit_star(
     star_query: Query<(Entity, &Transform), With<Star>>,
     asset_server: Res<AssetServer>,
     mut score: ResMut<Score>,
+    sound_state: Res<State<SoundState>>,
 ) {
     if let Ok(player_transform) = player_query.single_mut() {
         for (star_entity, star_transform) in star_query.iter() {
@@ -164,12 +167,29 @@ pub fn player_hit_star(
             if distance < player_radius + star_radius {
                 println!("Player hit by star!");
                 score.value += 1;
-                if PLAY_SOUNDS {
+                if sound_state.get() == &SoundState::SoundOn {
                     let sound_effect = asset_server.load("audio/laserLarge_000.ogg");
                     commands.spawn(AudioPlayer::new(sound_effect));
                 }
                 commands.entity(star_entity).despawn();
             }
+        }
+    }
+}
+
+pub fn toggle_sound(
+    keyboard_input: Res<ButtonInput<KeyCode>>,
+    sound_state: Res<State<SoundState>>,
+    mut next_sound_state: ResMut<NextState<SoundState>>,
+) {
+    if keyboard_input.just_pressed(KeyCode::KeyS) {
+        if sound_state.get() == &SoundState::SoundOff {
+            next_sound_state.set(SoundState::SoundOn);
+            println!("Sound on");
+        }
+        if sound_state.get() == &SoundState::SoundOn {
+            next_sound_state.set(SoundState::SoundOff);
+            println!("Sound off");
         }
     }
 }

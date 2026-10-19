@@ -7,6 +7,7 @@ use systems::*;
 
 use super::SimulationState;
 use crate::AppState;
+use crate::game::SoundState;
 
 #[derive(SystemSet, Debug, Hash, PartialEq, Eq, Clone)]
 pub enum PlayerSystemSet {
@@ -43,7 +44,7 @@ impl Plugin for PlayerPlugin {
             )
             .add_systems(
                 Update,
-                (enemy_hit_player, player_hit_star)
+                (enemy_hit_player, player_hit_star, toggle_sound)
                     .run_if(in_state(AppState::Game))
                     .run_if(in_state(SimulationState::Running)),
             )

@@ -22,6 +22,8 @@ impl Plugin for GamePlugin {
         app
             // Game state
             .init_state::<SimulationState>()
+            // Sound state
+            .init_state::<SoundState>()
             // Messages
             .add_message::<GameOver>()
             // Plugins
@@ -36,4 +38,11 @@ pub enum SimulationState {
     Running,
     #[default]
     Paused,
+}
+
+#[derive(States, Debug, Clone, Copy, Eq, PartialEq, Hash, Default)]
+pub enum SoundState {
+    #[default]
+    SoundOff,
+    SoundOn,
 }
