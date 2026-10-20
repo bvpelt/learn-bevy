@@ -15,4 +15,6 @@ It is devided in several steps
 - UI [EP10](docs/EP10.md)
 
 
-UI https://www.youtube.com/watch?v=iW19V3a96tY
+[UI https://www.youtube.com/watch?v=iW19V3a96tY](https://youtu.be/iW19V3a96tY?si=PkhTOFocHQQrhgC2&t=1574)
+
+https://youtu.be/iW19V3a96tY?si=PkhTOFocHQQrhgC2&t=1574

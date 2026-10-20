@@ -12,3 +12,14 @@ pub fn button_style() -> Node {
         ..default()
     }
 }
+
+pub fn title_button_style() -> Node {
+    Node {
+        flex_direction: FlexDirection::Row,
+        justify_content: JustifyContent::Center,
+        align_items: AlignItems::Center,
+        width: Val::Px(300.0),
+        height: Val::Px(120.0),
+        ..default()
+    }
+}
