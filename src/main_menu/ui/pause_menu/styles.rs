@@ -18,7 +18,9 @@ pub fn pause_panel_style() -> Node {
         justify_content: JustifyContent::Center,
         align_items: AlignItems::Center,
         padding: UiRect::all(Val::Px(24.0)),
-        row_gap: Val::Px(16.0), // even spacing between buttons
+        row_gap: Val::Px(16.0),
+        border: UiRect::all(Val::Px(2.0)), // border width (needed to see it)
+        border_radius: BorderRadius::all(Val::Px(12.0)), // <-- moved here
         ..default()
     }
 }

@@ -29,8 +29,7 @@ pub fn build_pause_menu(commands: &mut Commands, asset_server: &Res<AssetServer>
                 .spawn((
                     pause_panel_style(),
                     BackgroundColor(Color::srgb(0.97, 0.97, 0.97)),
-                    BorderColor(Color::srgb(0.7, 0.7, 0.7)),
-                    BorderRadius::all(Val::Px(12.0)), // rounded corners
+                    BorderColor::all(Color::srgb(0.7, 0.7, 0.7)),
                 ))
                 .with_children(|panel| {
                     // Title
