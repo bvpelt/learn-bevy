@@ -1,5 +1,5 @@
 mod components;
-mod style;
+mod styles;
 mod systems;
 
 use bevy::prelude::*;
