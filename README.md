@@ -17,4 +17,4 @@ It is devided in several steps
 
 [UI https://www.youtube.com/watch?v=iW19V3a96tY](https://youtu.be/iW19V3a96tY?si=PkhTOFocHQQrhgC2&t=1574)
 
-https://youtu.be/iW19V3a96tY?si=PkhTOFocHQQrhgC2&t=1574
+https://youtu.be/iW19V3a96tY?si=WKAii7SKzR8b2YqH&t=2690

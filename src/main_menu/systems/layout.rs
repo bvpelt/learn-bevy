@@ -18,19 +18,7 @@ pub fn despawn_main_menu(
 
 pub fn build_main_menu(commands: &mut Commands, asset_server: &Res<AssetServer>) -> Entity {
     let main_menu_entity = commands
-        .spawn((
-            Node {
-                flex_direction: FlexDirection::Column,
-                justify_content: JustifyContent::Center,
-                align_items: AlignItems::Center,
-                width: Val::Percent(100.0),
-                height: Val::Percent(100.0),
-                row_gap: Val::Px(8.0), // or UiValue::Px(8.0) for one axis
-                ..default()
-            },
-            BackgroundColor(Color::srgb(0.8, 0.2, 0.2)), // or Color::RED constant
-            MainMenu {},
-        ))
+        .spawn((main_menu_style(), MainMenu {}))
         .with_children(|parent| {
             // Title
             parent
@@ -39,45 +27,17 @@ pub fn build_main_menu(commands: &mut Commands, asset_server: &Res<AssetServer>)
                     // <-- .with_children chained on it
                     // Image 1
                     title.spawn((
-                        Node {
-                            width: Val::Px(64.0),
-                            height: Val::Px(64.0),
-                            margin: UiRect {
-                                left: Val::Px(8.0),
-                                right: Val::Px(8.0),
-                                top: Val::Px(8.0),
-                                bottom: Val::Px(8.0),
-                            },
-                            ..default()
-                        },
+                        image_style(),
                         ImageNode::new(asset_server.load("sprites/ball_blue_large.png")),
                     ));
 
                     // Text
-                    title.spawn((
-                        Text::new("Ball Game"),
-                        TextFont {
-                            font: asset_server.load("fonts/FiraSans-Bold.ttf").into(),
-                            font_size: FontSize::Px(64.0),
-                            ..default()
-                        },
-                        TextColor(Color::WHITE),
-                    ));
+                    title.spawn((Text::new("Ball Game"), text_style(64.0, &asset_server)));
 
                     // Image 2
                     title.spawn((
-                        Node {
-                            width: Val::Px(64.0),
-                            height: Val::Px(64.0),
-                            margin: UiRect {
-                                left: Val::Px(8.0),
-                                right: Val::Px(8.0),
-                                top: Val::Px(8.0),
-                                bottom: Val::Px(8.0),
-                            },
-                            ..default()
-                        },
-                        ImageNode::new(asset_server.load("sprites/ball_blue_large.png")),
+                        image_style(),
+                        ImageNode::new(asset_server.load("sprites/ball_red_large.png")),
                     ));
                 });
             // Play
@@ -85,21 +45,13 @@ pub fn build_main_menu(commands: &mut Commands, asset_server: &Res<AssetServer>)
                 .spawn((
                     button_style(),
                     BackgroundColor(NORMAL_BUTTON_COLOR),
+                    Interaction::None,
                     PlayButton {},
                 ))
                 .with_children(|button| {
                     button.spawn((
                         Text::new("Play"), // text content
-                        TextFont {
-                            font: asset_server.load("fonts/FiraSans-Bold.ttf").into(), // Handle -> FontSource
-                            font_size: FontSize::Px(32.0),
-                            ..default()
-                        },
-                        TextColor(Color::WHITE),
-                        TextLayout {
-                            justify: Justify::Center,
-                            ..default()
-                        }, // centers the text in its node
+                        text_style(32.0, &asset_server),
                     ));
                 });
             // Quit
@@ -107,21 +59,13 @@ pub fn build_main_menu(commands: &mut Commands, asset_server: &Res<AssetServer>)
                 .spawn((
                     button_style(),
                     BackgroundColor(NORMAL_BUTTON_COLOR),
+                    Interaction::None,
                     QuitButton {},
                 ))
                 .with_children(|button| {
                     button.spawn((
                         Text::new("Quit"), // text content
-                        TextFont {
-                            font: asset_server.load("fonts/FiraSans-Bold.ttf").into(), // Handle -> FontSource
-                            font_size: FontSize::Px(32.0),
-                            ..default()
-                        },
-                        TextColor(Color::WHITE),
-                        TextLayout {
-                            justify: Justify::Center,
-                            ..default()
-                        }, // centers the text in its node
+                        text_style(32.0, &asset_server),
                     ));
                 });
         })
