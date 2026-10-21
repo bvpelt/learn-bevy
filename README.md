@@ -2,6 +2,10 @@
 
 This document shows a tutorial to use bevy. Based on: https://www.youtube.com/watch?v=TQt-v_bFdao&list=PLVnntJRoP85JHGX7rGDu6LaF3fmDDbqyd. 
 
+This code is build with
+- rust 1.96.0
+- bevy 0.19.0
+
 It is devided in several steps
 - Setup environment [EP1](docs/EP1.md)
 - Bundle and resources [EP2](docs/EP2.md)
@@ -9,12 +13,10 @@ It is devided in several steps
 - Enemy movement, collision detection, sound [EP4](docs/EP4.md)
 - Add user resources and score [EP5](docs/EP5.md)
 - Add events game over, add high score [EP6](docs/EP6.md)
-- Add user resources and score [EP7](docs/EP7.md)
-- System ordering and systemsets [EP8](docs/EP8.md)
-- Statemanagement and conditional run on state [EP9](docs/EP9.md)
+- Refactoring [EP7](docs/EP7.md)[github](https://github.com/bvpelt/learn-bevy/tree/simple-refactor)
+- System ordering and systemsets [EP8](docs/EP8.md) [github](https://github.com/bvpelt/learn-bevy/tree/systemset)
+- Statemanagement and conditional run on state [EP9](docs/EP9.md) [github](https://github.com/bvpelt/learn-bevy/tree/state)
 - UI [EP10](docs/EP10.md)
 
 
 [UI https://www.youtube.com/watch?v=iW19V3a96tY](https://youtu.be/iW19V3a96tY?si=PkhTOFocHQQrhgC2&t=1574)
-
-https://youtu.be/iW19V3a96tY?si=WKAii7SKzR8b2YqH&t=2690

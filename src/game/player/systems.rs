@@ -135,7 +135,7 @@ pub fn enemy_hit_player(
 
             // collision detection between player and enemy
             if distance < player_radius + enemy_radius {
-                println!("Player hits by enemy!, Game Over!");
+                debug!("Player hits by enemy!, Game Over!");
 
                 if sound_state.get() == &SoundState::SoundOn {
                     let sound_effect = asset_server.load("audio/explosionCrunch_000.ogg");
@@ -167,7 +167,7 @@ pub fn player_hit_star(
 
             // collision detection between player and star
             if distance < player_radius + star_radius {
-                println!("Player hit by star!");
+                debug!("Player hit by star!");
                 score.value += 1;
                 if sound_state.get() == &SoundState::SoundOn {
                     let sound_effect = asset_server.load("audio/laserLarge_000.ogg");

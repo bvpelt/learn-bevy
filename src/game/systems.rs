@@ -5,12 +5,12 @@ use crate::game::SoundState;
 
 pub fn pause_simulation(mut next_simulation_state: ResMut<NextState<SimulationState>>) {
     next_simulation_state.set(SimulationState::Paused);
-    println!("Simulation Paused");
+    debug!("Simulation Paused");
 }
 
 pub fn resume_simulation(mut next_simulation_state: ResMut<NextState<SimulationState>>) {
     next_simulation_state.set(SimulationState::Running);
-    println!("Simulation Resumed - Running");
+    debug!("Simulation Resumed - Running");
 }
 
 pub fn toggle_simulation(
@@ -21,11 +21,11 @@ pub fn toggle_simulation(
     if keyboard_input.just_pressed(KeyCode::Space) {
         if simulation_state.get() == &SimulationState::Running {
             next_simulation_state.set(SimulationState::Paused);
-            println!("Simulation Paused");
+            debug!("Simulation Paused");
         }
         if simulation_state.get() == &SimulationState::Paused {
             next_simulation_state.set(SimulationState::Running);
-            println!("Simulation Running");
+            debug!("Simulation Running");
         }
     }
 }
@@ -38,10 +38,10 @@ pub fn toggle_sound(
     if keyboard_input.just_pressed(KeyCode::KeyS) {
         if sound_state.get() == &SoundState::SoundOff {
             next_sound_state.set(SoundState::SoundOn);
-            println!("Sound on");
+            debug!("Sound on");
         } else {
             next_sound_state.set(SoundState::SoundOff);
-            println!("Sound off");
+            debug!("Sound off");
         }
     }
 }
