@@ -1,5 +1,7 @@
+use bevy::prelude::*;
+
 use crate::game::score::resources::Score;
-use crate::game::ui::game_over_menu::components::*;
+use crate::main_menu::ui::game_over_menu::components::FinalScoreText;
 
 pub fn update_final_score_text(
     score: Res<Score>,

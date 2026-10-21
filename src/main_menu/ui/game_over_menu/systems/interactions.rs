@@ -1,8 +1,8 @@
 use bevy::prelude::*;
 
 use crate::AppState;
-use crate::game::ui::game_over_menu::components::*;
-use crate::game::ui::game_over_menu::styles::{
+use crate::main_menu::ui::game_over_menu::components::*;
+use crate::main_menu::ui::game_over_menu::styles::{
     HOVERED_BUTTON_COLOR, NORMAL_BUTTON_COLOR, PRESSED_BUTTON_COLOR,
 };
 

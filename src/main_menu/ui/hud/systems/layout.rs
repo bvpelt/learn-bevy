@@ -1,5 +1,8 @@
 use bevy::prelude::*;
 
+use crate::main_menu::ui::hud::components::*;
+use crate::main_menu::ui::hud::styles::*;
+
 pub fn spawn_hud_menu(mut commands: Commands<'_, '_>, asset_server: Res<AssetServer>) {
     let hud_menu_entity = build_hud_menu(&mut commands, &asset_server);
 }

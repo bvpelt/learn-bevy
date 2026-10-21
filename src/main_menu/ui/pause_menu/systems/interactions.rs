@@ -1,7 +1,9 @@
 use bevy::prelude::*;
 
-use crate::game::ui::pause_menu::components::*;
-use crate::game::ui::pause_menu::style::{
+use crate::AppState;
+use crate::game::SimulationState;
+use crate::main_menu::ui::pause_menu::components::*;
+use crate::main_menu::ui::pause_menu::styles::{
     HOVERED_BUTTON_COLOR, NORMAL_BUTTON_COLOR, PRESSED_BUTTON_COLOR,
 };
 

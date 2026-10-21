@@ -122,6 +122,7 @@ pub fn enemy_hit_player(
     enemy_query: Query<&Transform, With<Enemy>>,
     asset_server: Res<AssetServer>,
     score: Res<Score>,
+    mut hits: ResMut<EnemiesHit>,
     sound_state: Res<State<SoundState>>,
 ) {
     if let Ok((player_entity, player_transform)) = player_query.single_mut() {
@@ -135,6 +136,7 @@ pub fn enemy_hit_player(
             // collision detection between player and enemy
             if distance < player_radius + enemy_radius {
                 println!("Player hit by enemy!, Game Over!");
+                hits.value += 1;
 
                 if sound_state.get() == &SoundState::SoundOn {
                     let sound_effect = asset_server.load("audio/explosionCrunch_000.ogg");

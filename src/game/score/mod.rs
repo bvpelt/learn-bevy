@@ -15,6 +15,7 @@ impl Plugin for ScorePlugin {
         app
             // Resources
             .init_resource::<HighScores>()
+            .init_resource::<EnemiesHit>()
             // On Enter State
             .add_systems(OnEnter(AppState::Game), insert_score)
             // Systems
