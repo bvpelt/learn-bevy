@@ -8,6 +8,7 @@ use crate::AppState;
 
 use systems::interactions::*;
 use systems::layout::*;
+use systems::updates::update_final_score_text;
 
 pub struct GameOverMenuPlugin;
 
@@ -20,6 +21,7 @@ impl Plugin for GameOverMenuPlugin {
             .add_systems(
                 Update,
                 (
+                    update_final_score_text,
                     interact_with_restart_button,
                     interact_with_main_menu_button,
                     interact_with_quit_button,

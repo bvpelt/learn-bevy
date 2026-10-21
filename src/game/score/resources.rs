@@ -12,18 +12,6 @@ impl Default for Score {
     }
 }
 
-#[derive(Resource)]
-pub struct EnemiesHit {
-    pub value: u32,
-}
-
-// default trait implementation for EnemiesHit
-impl Default for EnemiesHit {
-    fn default() -> Self {
-        EnemiesHit { value: 0 }
-    }
-}
-
 #[derive(Resource, Debug)]
 pub struct HighScores {
     pub scores: Vec<(String, u32)>, // player name and score

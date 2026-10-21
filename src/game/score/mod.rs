@@ -15,7 +15,6 @@ impl Plugin for ScorePlugin {
         app
             // Resources
             .init_resource::<HighScores>()
-            .init_resource::<EnemiesHit>()
             // On Enter State
             .add_systems(OnEnter(AppState::Game), insert_score)
             // Systems
@@ -23,6 +22,6 @@ impl Plugin for ScorePlugin {
             .add_systems(Update, update_high_scores)
             .add_systems(Update, high_scores_updated)
             // On Exit State
-            .add_systems(OnExit(AppState::Game), remove_score);
+            .add_systems(OnExit(AppState::MainMenu), remove_score);
     }
 }

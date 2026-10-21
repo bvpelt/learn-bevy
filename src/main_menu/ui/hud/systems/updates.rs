@@ -1,6 +1,7 @@
 use bevy::prelude::*;
 
-use crate::game::score::resources::{EnemiesHit, Score}; // adjust if Score lives elsewhere
+use crate::game::enemy::components::Enemy;
+use crate::game::score::resources::Score; // adjust if Score lives elsewhere
 use crate::main_menu::ui::hud::components::*;
 
 pub fn update_score_text(score: Res<Score>, mut query: Query<&mut Text, With<ScoreText>>) {
@@ -13,14 +14,10 @@ pub fn update_score_text(score: Res<Score>, mut query: Query<&mut Text, With<Sco
 }
 
 pub fn update_enemy_text(
-    // adapt to whatever resource tracks hits — example uses an EnemiesHit resource
-    enemies_hit: Res<EnemiesHit>,
+    enemies: Query<(), With<Enemy>>, // count live enemies
     mut query: Query<&mut Text, With<EnemyText>>,
 ) {
-    if enemies_hit.is_changed() {
-        println!("Enemie hits: {}", enemies_hit.value);
-        if let Ok(mut text) = query.single_mut() {
-            *text = Text::new(enemies_hit.value.to_string());
-        }
+    if let Ok(mut text) = query.single_mut() {
+        *text = Text::new(enemies.iter().count().to_string());
     }
 }

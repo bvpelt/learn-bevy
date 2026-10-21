@@ -6,13 +6,11 @@ use super::components::*;
 use super::resources::*;
 use super::{ENEMY_SIZE, ENEMY_SPEED, NUMBER_OF_ENEMIES};
 use crate::game::SoundState;
-use crate::game::score::resources::EnemiesHit;
 
 pub fn spawn_enemies(
     mut commands: Commands,
     window_query: Query<&Window, With<PrimaryWindow>>,
     asset_server: Res<AssetServer>,
-    mut enemies: ResMut<EnemiesHit>,
 ) {
     let window = window_query.single().unwrap();
     let mut rng = rand::rng();
@@ -31,7 +29,6 @@ pub fn spawn_enemies(
                 direction: Vec2::new(rng.random(), rng.random()).normalize(),
             },
         ));
-        enemies.value += 1;
     }
 }
 
