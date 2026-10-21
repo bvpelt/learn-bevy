@@ -3,8 +3,10 @@ use bevy::window::PrimaryWindow;
 
 use super::components::Player;
 use crate::events::GameOver;
+use crate::game::HUD_HEIGHT;
 use crate::game::enemy::ENEMY_SIZE;
 use crate::game::enemy::components::*;
+use crate::game::level::resources::Level;
 use crate::game::player::SoundState;
 use crate::game::score::resources::*;
 use crate::game::star::STAR_SIZE;
@@ -93,7 +95,7 @@ pub fn confine_player_movement(
         let x_min = half_player_size;
         let x_max = window.width() - half_player_size;
         let y_min = half_player_size;
-        let y_max = window.height() - half_player_size;
+        let y_max = window.height() - HUD_HEIGHT - half_player_size; // stay below the HUD
 
         let mut translation = player_transform.translation;
 
@@ -155,6 +157,7 @@ pub fn player_hit_star(
     star_query: Query<(Entity, &Transform), With<Star>>,
     asset_server: Res<AssetServer>,
     mut score: ResMut<Score>,
+    mut level: ResMut<Level>,
     sound_state: Res<State<SoundState>>,
 ) {
     if let Ok(player_transform) = player_query.single_mut() {
@@ -169,6 +172,7 @@ pub fn player_hit_star(
             if distance < player_radius + star_radius {
                 debug!("Player hit by star!");
                 score.value += 1;
+                level.stars_collected += 1;
                 if sound_state.get() == &SoundState::SoundOn {
                     let sound_effect = asset_server.load("audio/laserLarge_000.ogg");
                     commands.spawn(AudioPlayer::new(sound_effect));

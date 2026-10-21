@@ -1,7 +1,8 @@
 use bevy::prelude::*;
 
 use crate::game::enemy::components::Enemy;
-use crate::game::score::resources::Score; // adjust if Score lives elsewhere
+use crate::game::level::resources::Level;
+use crate::game::score::resources::Score;
 use crate::main_menu::ui::hud::components::*;
 
 pub fn update_score_text(score: Res<Score>, mut query: Query<&mut Text, With<ScoreText>>) {
@@ -10,6 +11,12 @@ pub fn update_score_text(score: Res<Score>, mut query: Query<&mut Text, With<Sco
         if let Ok(mut text) = query.single_mut() {
             *text = Text::new(score.value.to_string());
         }
+    }
+}
+
+pub fn update_level_text(level: Res<Level>, mut query: Query<&mut Text, With<LevelText>>) {
+    if let Ok(mut text) = query.single_mut() {
+        *text = Text::new(format!("Level {}", level.number));
     }
 }
 

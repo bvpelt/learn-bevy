@@ -1,9 +1,11 @@
 use bevy::prelude::*;
 
+use crate::game::HUD_HEIGHT;
+
 pub fn hud_menu_style() -> Node {
     Node {
         width: Val::Percent(100.0),
-        height: Val::Px(80.0),
+        height: Val::Px(HUD_HEIGHT),
         justify_content: JustifyContent::SpaceBetween, // pushes left & right groups apart
         align_items: AlignItems::Center,
         padding: UiRect::all(Val::Px(8.0)),

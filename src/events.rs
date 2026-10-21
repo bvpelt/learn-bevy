@@ -4,3 +4,6 @@ use bevy::prelude::*;
 pub struct GameOver {
     pub score: u32,
 }
+
+#[derive(Message)]
+pub struct LevelUp;

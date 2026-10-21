@@ -33,6 +33,11 @@ pub fn build_hud_menu(commands: &mut Commands, asset_server: &Res<AssetServer>) 
                 group.spawn((hud_text_style(asset_server), ScoreText));
             });
 
+            // Middle group: [Level N]
+            hud.spawn(hud_group_style()).with_children(|group| {
+                group.spawn((hud_text_style(asset_server), LevelText));
+            });
+
             // Right group: [enemy count] [ball image]
             hud.spawn(hud_group_style()).with_children(|group| {
                 group.spawn((hud_text_style(asset_server), EnemyText));
