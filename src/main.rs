@@ -33,6 +33,8 @@ fn main() {
 pub enum AppState {
     #[default]
     MainMenu,
+    NameEntry,
     Game,
     GameOver,
+    Scoreboard,
 }

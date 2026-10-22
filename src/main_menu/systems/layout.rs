@@ -54,6 +54,20 @@ pub fn build_main_menu(commands: &mut Commands, asset_server: &Res<AssetServer>)
                         text_style(32.0, &asset_server),
                     ));
                 });
+            // High scores
+            parent
+                .spawn((
+                    button_style(),
+                    BackgroundColor(NORMAL_BUTTON_COLOR),
+                    Interaction::None,
+                    HighScoresButton {},
+                ))
+                .with_children(|button| {
+                    button.spawn((
+                        Text::new("High scores"), // text content
+                        text_style(32.0, &asset_server),
+                    ));
+                });
             // Quit
             parent
                 .spawn((

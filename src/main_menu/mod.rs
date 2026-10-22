@@ -21,7 +21,11 @@ impl Plugin for MainMenuPlugin {
             // Systems
             .add_systems(
                 Update,
-                (interact_with_play_button, interact_with_quit_button)
+                (
+                    interact_with_play_button,
+                    interact_with_high_scores_button,
+                    interact_with_quit_button,
+                )
                     .run_if(in_state(AppState::MainMenu)),
             )
             // On Exit State

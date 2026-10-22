@@ -117,6 +117,7 @@ pub fn confine_player_movement(
     }
 }
 
+/*
 pub fn enemy_hit_player(
     mut commands: Commands,
     mut game_over_event_writer: MessageWriter<GameOver>,
@@ -146,6 +147,46 @@ pub fn enemy_hit_player(
 
                 commands.entity(player_entity).despawn();
                 game_over_event_writer.write(GameOver { score: score.value });
+            }
+        }
+    }
+}
+*/
+
+pub fn enemy_hit_player(
+    mut commands: Commands,
+    mut game_over_event_writer: MessageWriter<GameOver>,
+    mut player_query: Query<(Entity, &Transform), With<Player>>,
+    enemy_query: Query<&Transform, With<Enemy>>,
+    asset_server: Res<AssetServer>,
+    score: Res<Score>,
+    level: Res<Level>,
+
+    sound_state: Res<State<SoundState>>,
+) {
+    if let Ok((player_entity, player_transform)) = player_query.single_mut() {
+        for enemy_transform in enemy_query.iter() {
+            let distance = player_transform
+                .translation
+                .distance(enemy_transform.translation);
+            let player_radius = PLAYER_SIZE / 2.0;
+            let enemy_radius = ENEMY_SIZE / 2.0;
+
+            // collision detection between player and enemy
+            if distance < player_radius + enemy_radius {
+                debug!("Player hits by enemy!, Game Over!");
+
+                if sound_state.get() == &SoundState::SoundOn {
+                    let sound_effect = asset_server.load("audio/explosionCrunch_000.ogg");
+                    commands.spawn(AudioPlayer::new(sound_effect));
+                }
+
+                commands.entity(player_entity).despawn();
+                game_over_event_writer.write(GameOver {
+                    score: score.value,
+                    level: level.number,
+                });
+                break; // one game over per game, even if two enemies hit at once
             }
         }
     }

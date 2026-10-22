@@ -14,7 +14,8 @@ impl Plugin for ScorePlugin {
     fn build(&self, app: &mut App) {
         app
             // Resources
-            .init_resource::<HighScores>()
+            .init_resource::<PlayerName>()
+            .insert_resource(HighScores::load()) // persisted scores from highscores.json
             // On Enter State
             .add_systems(OnEnter(AppState::Game), insert_score)
             // Systems
