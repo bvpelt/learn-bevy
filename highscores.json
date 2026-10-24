@@ -3,5 +3,10 @@
     "player_name": "Bart",
     "level": 4,
     "score": 30
+  },
+  {
+    "player_name": "Noud",
+    "level": 3,
+    "score": 16
   }
 ]

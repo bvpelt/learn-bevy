@@ -4,7 +4,23 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-bevy = { version = "0.19.0", features = ["dynamic_linking", "wav"] }
+bevy = { version = "0.19.0", features = ["wav"] }
 rand = "0.10"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
+
+[features]
+# Fast incremental compile times during development only.
+dev = ["bevy/dynamic_linking"]
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+strip = true
+
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 3
