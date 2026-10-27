@@ -3,7 +3,7 @@
 This document shows a tutorial to use bevy. Based on: https://www.youtube.com/watch?v=TQt-v_bFdao&list=PLVnntJRoP85JHGX7rGDu6LaF3fmDDbqyd. 
 
 This code is build with
-- rust 1.96.0
+- rust 1.99.1
 - bevy 0.19.0
 
 It is devided in several steps
@@ -23,7 +23,7 @@ It is devided in several steps
 
 ## Building
 
-To build for production use [```cargo build --release```](#build-for-production) to build for development [```cargo build```](#build-for-development) or to run for development type ```cargo run --features dev``` or ```cargo dev```
+To build for production use [```cargo build --release``` or ```cargo build-rel```](#build-for-production) to build for development [```cargo build```](#build-for-development) or to run for development type ```cargo run --features dev``` or ```cargo dev```
 
 For development dynamic_linking is enabled, which means the executable dependes on shared libraries.
 
@@ -31,8 +31,7 @@ For a production release dynamic_linking is not enabled.
 
 ### Build for production
 
-Run ./release-package.bash after building the production release to get the executable and the assets in the same directory.
-
+#### Build for production 
 ```bash
 $ cargo build-rel
    Compiling proc-macro2 v1.0.107
@@ -440,9 +439,21 @@ drwxrwxr-x   7 bvpelt bvpelt     4096 Oct 24 21:15 .
 
 ```
 
+#### Release the executable
+
+Run ./release-package.bash after building the production release to get the executable and the assets in the same directory.
+
+```bash
+$ ./release-package.bash 
+    Finished `release` profile [optimized] target(s) in 0.22s
+Release is in ./dist
+```
+
 ### Building for development
 
 #### Build for development
+The default build command builds for development.
+
 ```bash
 $ cargo build
    Compiling bevy_diagnostic v0.19.1
@@ -888,6 +899,4 @@ drwxrwxr-x    2 bvpelt bvpelt     430080 Oct 24 21:07 deps
 drwxrwxr-x    7 bvpelt bvpelt       4096 Oct 24 21:07 .
 -rw-rw-r--    1 bvpelt bvpelt       3601 Oct 24 21:07 learn-bevy.d
 drwxrwxr-x    5 bvpelt bvpelt       4096 Oct 24 21:08 ..
-
-
 ```
