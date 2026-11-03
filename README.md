@@ -29,6 +29,17 @@ For development dynamic_linking is enabled, which means the executable dependes 
 
 For a production release dynamic_linking is not enabled.
 
+### Requirements
+- rust 1.99.1
+- bevy 0.19.0
+
+On ubuntu
+```bash
+sudo apt update
+sudo apt install -y libwayland-dev pkg-config
+sudo apt install -y libwayland-dev libxkbcommon-dev libx11-dev libx11-xcb-dev libxcb1-dev libxcursor-dev libxi-dev libasound2-dev libudev-dev pkg-config
+```
+
 ### Build for production
 
 #### Build for production 
